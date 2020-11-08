@@ -21,13 +21,11 @@ public class PlayerMovement : MonoBehaviour
         transform = GetComponent<Transform>();
         rigidbody = GetComponent<Rigidbody>();
     }
-
     
     void FixedUpdate()
     {
         CheckForInput();
         RotateCanonToCurser();
-        print(Camera.main.ScreenPointToRay(Input.mousePosition));
     }
 
 
