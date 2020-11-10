@@ -4,23 +4,34 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] float health = 100f;
+    [SerializeField] private float health = 100f;
+    [SerializeField] private float dissolveDuration = 1f;
 
-    MeshRenderer meshRenderer;
+    private MeshRenderer meshRenderer;
+    private EnemySpawner enemySpawner;
 
-    bool validSpawn = true;
+    private float spawndelay;
+    private float dissolveValue = 1f;
+    
+
+    private bool validSpawn = true;
+    private bool isAlive = true;
 
     void Awake() {
+        enemySpawner = FindObjectOfType<EnemySpawner>();
         meshRenderer = GetComponent<MeshRenderer>();
         StartCoroutine(CheckSpawnValidity());
     }
 
-    private void OnTriggerEnter(Collider other) {
-        if (other.GetComponent<Projectile>() == null && other.GetComponent<PlayerMovement>() == null) {
-            validSpawn = false;
-            print("trigger");
-
+    private void Update() {
+        if (isAlive && dissolveValue > 0f) {
+            dissolveValue -= Time.deltaTime * (1/dissolveDuration);
+        } 
+        if (!isAlive && dissolveValue < 1f) {
+            dissolveValue += Time.deltaTime * (1/dissolveDuration);
         }
+
+        meshRenderer.material.SetFloat("Vector1_C333254E", dissolveValue);
     }
 
     private void OnCollisionEnter(Collision other) {
@@ -29,21 +40,24 @@ public class Enemy : MonoBehaviour
 
     public void recieveDamage (float damage) {
         health -= damage;
-        if(health <= 0f) {
-            Destroy(this.gameObject);
 
+        if(health <= 0f) {
+            enemySpawner.StartCoroutine(enemySpawner.SpawnEnemy(false));
+            isAlive = false;
+            GetComponent<Collider>().enabled = false;
+            Destroy(this.gameObject, dissolveDuration);
         }
     }
 
     IEnumerator CheckSpawnValidity () {
         yield return new WaitForFixedUpdate();
+
         if (validSpawn) {
             meshRenderer.enabled = true;
         }
         else {
+            enemySpawner.StartCoroutine(enemySpawner.SpawnEnemy(true));
             Destroy(this.gameObject);
-            print("non valid spawn");
         }
     }
-
 }

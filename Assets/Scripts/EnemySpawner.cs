@@ -6,40 +6,38 @@ using Random = UnityEngine.Random;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] float xMin;
-    [SerializeField] float xMax;
-    [SerializeField] float zMin;
-    [SerializeField] float zMax;
-    [SerializeField] float y;
+    [SerializeField] private float xMin = 0f;
+    [SerializeField] private float xMax = 10f;
+    [SerializeField] private float zMin = 0f;
+    [SerializeField] private float zMax = 10f;
+    [SerializeField] private float y = 1f;
+    [SerializeField] private float spawnDelay = 2f;
 
-    [SerializeField] GameObject enemy;
+    [SerializeField] private int desiredEnemys = 2;
 
-    [SerializeField] int desiredEnemys = 200;
-    [SerializeField] float spawnDelay = 2f;
-    
-    int currentEnemys;
-    
-    bool spawnInProgress = false;
+    [SerializeField] private GameObject enemy;
 
-    void Update()
-    {
-        currentEnemys = FindObjectsOfType<Enemy>().Length;
 
-        if (currentEnemys < desiredEnemys && !spawnInProgress) {
-            StartCoroutine(SpawnEnemy());
+    private void Awake() {
+        int i = 0;
+
+        while (i < desiredEnemys) {
+            i ++;
+            print(i);
+            StartCoroutine(SpawnEnemy(true));
         }
     }
 
 
-    IEnumerator SpawnEnemy()
+    public IEnumerator SpawnEnemy(bool spawnsInstantly)
     {
-        spawnInProgress = true;
-        yield return new WaitForSeconds(spawnDelay);
+        if (!spawnsInstantly) {
+            yield return new WaitForSeconds(spawnDelay);
+        }
+
         float x = Random.Range(xMin, xMax);
         float z = Random.Range(zMin, zMax);
-        
-        Instantiate(enemy, new Vector3(x, y, z), Quaternion.identity);
-        spawnInProgress = false;
 
+        Instantiate(enemy, new Vector3(x, y, z), Quaternion.identity);        
     }
 }

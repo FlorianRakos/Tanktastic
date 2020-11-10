@@ -53,6 +53,7 @@ MonoBehaviour:
   speed: 20
   damage: 100
   mainDirection: {x: 0, y: 0, z: 0}
+  rocketLifetime: 4
 --- !u!54 &-6247767496382181630
 Rigidbody:
   m_ObjectHideFlags: 0

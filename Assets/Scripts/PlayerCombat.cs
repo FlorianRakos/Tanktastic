@@ -4,18 +4,17 @@ using UnityEngine;
 
 public class PlayerCombat : MonoBehaviour
 {
-    [SerializeField] Transform projectileExitMain;
-    [SerializeField] Transform projectileExitRocket;
+    [SerializeField] private Transform projectileExitMain;
+    [SerializeField] private Transform projectileExitRocket;
 
-    [SerializeField] Rigidbody projectileMain;
-    [SerializeField] Rigidbody projectileRocket;
+    [SerializeField] private Rigidbody projectileMain;
+    [SerializeField] private Rigidbody projectileRocket;
 
+    [SerializeField] private float reloadDelayMain = 2f;
+    [SerializeField] private float reloadDelayRocket = 4f;
 
-    [SerializeField] float reloadDelayMain = 2f;
-    [SerializeField] float reloadDelayRocket = 4f;
-
-    float reloadTimerMain;
-    float reloadTimerRocket;
+    private float reloadTimerMain;
+    private float reloadTimerRocket;
 
 
     void Awake()

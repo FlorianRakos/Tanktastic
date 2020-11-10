@@ -6,78 +6,57 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
 
-    [SerializeField] bool isRocket = false;
-    [SerializeField] float rocketTurnSpeed = 10f;
-    [SerializeField] float rocketTargetingDelay = 0.5f;
+    [SerializeField] private bool isRocket = false;
+    [SerializeField] private float rocketTurnSpeed = 10f;
+    [SerializeField] private float rocketTargetingDelay = 0.5f;
 
-    [SerializeField] ParticleSystem hitFX;
-    [SerializeField] float speed = 50f;
-    [SerializeField] float damage = 100f;
-    [SerializeField] Vector3 mainDirection;
+    [SerializeField] private ParticleSystem hitFX;
+    [SerializeField] private Quaternion hitFXRotation;
 
-    [SerializeField] float rocketLifetime = 4f;
-    float startTime;
+    [SerializeField] private float speed = 50f;
+    [SerializeField] private float damage = 100f;
 
-    Transform transform;
-    Transform targetEnemy;
-    
-    Rigidbody rigidbody;
+    [SerializeField] private float projectileLifetime = 4f;
+
+    private float startTime;
+
+    private Transform targetEnemy;
+
+    private Rigidbody rigidbody;
     
 
     void Awake() {
-        transform = GetComponent<Transform>();
         rigidbody = GetComponent<Rigidbody>();
         startTime = Time.time;
-
-        //Invoke("FindClosestTarget", rocketTargetingDelay);
-        
+        StartCoroutine(ProjectileDecay());
     }
 
 
+    void FixedUpdate() {
+        MoveProjectile();
 
-    private void OnTriggerEnter(Collider other) {
-        var particleInstance = Instantiate(hitFX, transform.position, transform.rotation);
-        if(other.GetComponent<Enemy>() != null) {
-            print("enemy detected");
-            other.GetComponent<Enemy>().recieveDamage(damage);
+        if(isRocket) {
+            FindClosestTarget();
+
+            if(targetEnemy != null) {
+               RotateTowardsEnemyTarget(); 
+            }                        
         }
-        Destroy(particleInstance, 2f);
-        Destroy(this.gameObject);
     }
 
-    private void FixedUpdate() {
-        FireProjectile();
-
-        if(isRocket && targetEnemy != null && (startTime + rocketLifetime) > Time.time ) {
-            RotateTowardsEnemyTarget();
-        }
-        FindClosestTarget();
-
-        //print((startTime + rocketLifetime) > Time.time);
-
-    }
-
-    private void FireProjectile()
+    private void MoveProjectile()
     {
         rigidbody.velocity = transform.forward * speed; ;
     }
 
     private void RotateTowardsEnemyTarget()
     {
-        //Vector3 newDirection = Vector3.RotateTowards(transform.position, targetEnemy.position, rocketTurnSpeed * Time.fixedDeltaTime, 10f);
-        //newDirection.Normalize();
-        //transform.rotation = Quaternion.LookRotation(newDirection);
-
         Vector3 direction = (targetEnemy.position - rigidbody.transform.position);
         direction.Normalize();
 
         float rotateAmount = Vector3.Cross(direction, transform.forward).y;
 
         rigidbody.angularVelocity = new Vector3(0f, -rotateAmount * rocketTurnSpeed, 0f);
-        // rotateAmount * rocketTurnSpeed * Time.fixedDeltaTime
-
-        rigidbody.velocity = transform.forward * speed;
-        
     }
 
 
@@ -104,9 +83,28 @@ public class Projectile : MonoBehaviour
                         closestEnemy = enemy.transform;
                     }
                 }
-
                 targetEnemy = closestEnemy;
             }
         }
     }
+
+    private void OnTriggerEnter(Collider other) {                      
+        if(other.GetComponent<Enemy>() != null) {
+            other.GetComponent<Enemy>().recieveDamage(damage);
+        }
+
+        DestroyProjectile();
+    }
+
+    private IEnumerator ProjectileDecay()
+    {
+        yield return new WaitForSeconds(projectileLifetime);
+        DestroyProjectile();
+    }
+
+    private void DestroyProjectile() {
+        Instantiate(hitFX, transform.position, transform.rotation);
+        Destroy(this.gameObject);
+    }
+
 }

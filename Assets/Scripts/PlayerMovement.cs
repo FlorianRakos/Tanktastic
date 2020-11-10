@@ -5,22 +5,21 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] float speedForward = 50f;
-    [SerializeField] float speedBackward = 30f;
-    [SerializeField] float turnSpeed = 10f;
-    [SerializeField] float turnSpeedCanon = 10f;
+    [SerializeField] private float speedForward = 50f;
+    [SerializeField] private float speedBackward = 30f;
+    [SerializeField] private float turnSpeed = 10f;
+    [SerializeField] private float turnSpeedCanon = 10f;
 
-    [SerializeField] Transform canonTransform;
+    [SerializeField] private Transform canonTransform;
 
-    Transform transform;
-    Rigidbody rigidbody;
+    private Rigidbody rigidbody;
     
     
     void Awake()
     {
-        transform = GetComponent<Transform>();
         rigidbody = GetComponent<Rigidbody>();
     }
+
     
     void FixedUpdate()
     {
@@ -32,8 +31,7 @@ public class PlayerMovement : MonoBehaviour
     void CheckForInput()
     {
         float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-        
+        float vertical = Input.GetAxis("Vertical");      
 
         if(vertical != 0f) {
             MovePlayer(vertical);
@@ -58,14 +56,16 @@ public class PlayerMovement : MonoBehaviour
         {
             rigidbody.AddRelativeForce(direction * speedBackward);
         }
-    }    
+    }
+
 
     private void RotatePlayer(float horizontal)
     {
-        Quaternion rotation = Quaternion.Euler(0f, horizontal * turnSpeed * Time.deltaTime, 0f);
+        Quaternion rotation = Quaternion.Euler(0f, horizontal * turnSpeed * Time.fixedDeltaTime, 0f);
 
         rigidbody.MoveRotation(rigidbody.rotation * rotation );
     }
+    
 
     private void RotateCanonToCurser()
     {
@@ -80,11 +80,7 @@ public class PlayerMovement : MonoBehaviour
             Vector3 currentPos = canonTransform.position;
             Vector3 difference = target - currentPos;
             
-
             canonTransform.rotation = Quaternion.RotateTowards(canonTransform.rotation, Quaternion.LookRotation(difference), turnSpeedCanon * Time.fixedDeltaTime);
-
         }
     }
-
-
 }

@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 3199229463348048828}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0.08, y: 0.71, z: 4.42}
-  m_LocalScale: {x: 0.16684, y: 0.07284655, z: 0.357388}
+  m_LocalScale: {x: 0.20937954, y: 0.091420375, z: 0.44851193}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -109,10 +109,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isRocket: 0
+  rocketTurnSpeed: 10
+  rocketTargetingDelay: 0.5
   hitFX: {fileID: 4262232332899680091, guid: b95937874f58c2147afcc439faed28d3, type: 3}
+  hitFXRotation: {x: -0.70710677, y: 0, z: 0, w: 0.70710677}
   speed: 50
   damage: 100
-  mainDirection: {x: 0, y: 0, z: 0}
+  projectileLifetime: 4
 --- !u!54 &3199229463348048806
 Rigidbody:
   m_ObjectHideFlags: 0
