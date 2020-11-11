@@ -17,13 +17,19 @@ public class Enemy : MonoBehaviour
     private bool validSpawn = true;
     private bool isAlive = true;
 
+
     void Awake() {
         enemySpawner = FindObjectOfType<EnemySpawner>();
         meshRenderer = GetComponent<MeshRenderer>();
         StartCoroutine(CheckSpawnValidity());
     }
 
+
     private void Update() {
+        DissolvingEffect();
+    }
+
+    private void DissolvingEffect () {
         if (isAlive && dissolveValue > 0f) {
             dissolveValue -= Time.deltaTime * (1/dissolveDuration);
         } 
@@ -34,20 +40,11 @@ public class Enemy : MonoBehaviour
         meshRenderer.material.SetFloat("Vector1_C333254E", dissolveValue);
     }
 
+
     private void OnCollisionEnter(Collision other) {
        validSpawn = false;
     }
-
-    public void recieveDamage (float damage) {
-        health -= damage;
-
-        if(health <= 0f) {
-            enemySpawner.StartCoroutine(enemySpawner.SpawnEnemy(false));
-            isAlive = false;
-            GetComponent<Collider>().enabled = false;
-            Destroy(this.gameObject, dissolveDuration);
-        }
-    }
+  
 
     IEnumerator CheckSpawnValidity () {
         yield return new WaitForFixedUpdate();
@@ -60,4 +57,17 @@ public class Enemy : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+
+
+    public void recieveDamage (float damage) {
+        health -= damage;
+
+        if(health <= 0f) {
+            enemySpawner.StartCoroutine(enemySpawner.SpawnEnemy(false));
+            isAlive = false;
+            GetComponent<Collider>().enabled = false;
+            
+            Destroy(this.gameObject, dissolveDuration);
+        }
+    }    
 }

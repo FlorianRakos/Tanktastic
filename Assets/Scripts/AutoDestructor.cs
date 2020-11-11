@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AutoDestructor : MonoBehaviour
 {
-    void Start()
+    void Awake()
     {
         ParticleSystem ps = GetComponent<ParticleSystem>();
         

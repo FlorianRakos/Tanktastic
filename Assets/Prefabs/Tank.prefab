@@ -116,10 +116,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e36285f2db36354fb1f1cffa7d9cb63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedForward: 40000
-  speedBackward: 30000
-  turnSpeed: 80
-  turnSpeedCanon: 130
+  speedForward: 70000
+  speedBackward: 50000
+  turnSpeed: 110
+  turnSpeedCanon: 140
   canonTransform: {fileID: 1111157420674011167}
 --- !u!114 &5337094345628137764
 MonoBehaviour:
@@ -137,7 +137,10 @@ MonoBehaviour:
   projectileExitRocket: {fileID: 4276526070845367476}
   projectileMain: {fileID: 3199229463348048806, guid: 3b5ddd150b94bf44884991f1fa94e059,
     type: 3}
-  projectileRocket: {fileID: 0}
+  projectileRocket: {fileID: -6247767496382181630, guid: 19b26f7dac18baa46996e515fce4c678,
+    type: 3}
+  reloadDelayMain: 1
+  reloadDelayRocket: 2
 --- !u!54 &5337094345628137766
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -152,7 +155,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!65 &5337094346080584297
 BoxCollider:

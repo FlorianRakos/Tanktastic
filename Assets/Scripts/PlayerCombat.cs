@@ -23,11 +23,13 @@ public class PlayerCombat : MonoBehaviour
         reloadTimerRocket = reloadDelayRocket;
     }
 
+
     void Update()
     {
-        ReadInput();        
         ResetDelays();
+        ReadInput();                
     }
+
 
     private void ResetDelays()
     {
@@ -39,6 +41,7 @@ public class PlayerCombat : MonoBehaviour
             reloadTimerRocket += Time.deltaTime;
         }
     }
+
 
     void ReadInput() {
         if(Input.GetMouseButtonDown(0) && reloadTimerMain >= reloadDelayMain ) {
@@ -53,10 +56,12 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
+
     private void ProcessFireMain()
     {
         Rigidbody projectileInstance = Instantiate(projectileMain, projectileExitMain.position, projectileExitMain.rotation);
     }
+    
 
     private void ProcessFireRocket()
     {

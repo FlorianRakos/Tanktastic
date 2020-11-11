@@ -44,10 +44,39 @@ public class Projectile : MonoBehaviour
         }
     }
 
+
     private void MoveProjectile()
     {
         rigidbody.velocity = transform.forward * speed; ;
     }
+
+
+    private void FindClosestTarget()
+    {        
+        var enemies = FindObjectsOfType<Enemy>();
+        if (enemies.Length == 0) 
+        {
+            targetEnemy = null; 
+        }
+
+        else
+        {
+            Transform closestEnemy = enemies[0].transform;
+
+            foreach (Enemy enemy in enemies)
+            {
+                var distanceCurrent = Vector3.Distance(enemy.transform.position, transform.position);
+                var distanceClosest = Vector3.Distance(closestEnemy.transform.position, transform.position);
+                if (distanceCurrent < distanceClosest)
+                {
+                    closestEnemy = enemy.transform;
+                }
+            }
+            targetEnemy = closestEnemy;
+        }
+        
+    }
+
 
     private void RotateTowardsEnemyTarget()
     {
@@ -60,34 +89,6 @@ public class Projectile : MonoBehaviour
     }
 
 
-    private void FindClosestTarget()
-    {
-        if (isRocket)
-        {
-            var enemies = FindObjectsOfType<Enemy>();
-            if (enemies.Length == 0) 
-            {
-                targetEnemy = null; 
-            }
-
-            else
-            {
-                Transform closestEnemy = enemies[0].transform;
-
-                foreach (Enemy enemy in enemies)
-                {
-                    var distanceCurrent = Vector3.Distance(enemy.transform.position, transform.position);
-                    var distanceClosest = Vector3.Distance(closestEnemy.transform.position, transform.position);
-                    if (distanceCurrent < distanceClosest)
-                    {
-                        closestEnemy = enemy.transform;
-                    }
-                }
-                targetEnemy = closestEnemy;
-            }
-        }
-    }
-
     private void OnTriggerEnter(Collider other) {                      
         if(other.GetComponent<Enemy>() != null) {
             other.GetComponent<Enemy>().recieveDamage(damage);
@@ -96,11 +97,13 @@ public class Projectile : MonoBehaviour
         DestroyProjectile();
     }
 
+
     private IEnumerator ProjectileDecay()
     {
         yield return new WaitForSeconds(projectileLifetime);
         DestroyProjectile();
     }
+
 
     private void DestroyProjectile() {
         Instantiate(hitFX, transform.position, transform.rotation);

@@ -23,7 +23,6 @@ public class EnemySpawner : MonoBehaviour
 
         while (i < desiredEnemys) {
             i ++;
-            print(i);
             StartCoroutine(SpawnEnemy(true));
         }
     }
