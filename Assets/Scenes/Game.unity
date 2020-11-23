@@ -890,6 +890,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2523004337709711528, guid: 9855c5f9e43f2404e9bb32acb1e27634,
+        type: 3}
+      propertyPath: desiredEnemys
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2523004337709711529, guid: 9855c5f9e43f2404e9bb32acb1e27634,
         type: 3}
       propertyPath: m_Name
@@ -1013,6 +1018,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5337094345628137764, guid: 3ca82706fe5b8774ebb2c63e2e60f86e,
+        type: 3}
+      propertyPath: reloadDelayRocket
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 5337094345628137767, guid: 3ca82706fe5b8774ebb2c63e2e60f86e,
         type: 3}

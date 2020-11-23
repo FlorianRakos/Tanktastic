@@ -44,17 +44,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 8955525753605554975}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f8aedf2a0dc26b45ad7aa1ae35f5a0f, type: 3}
+  m_Script: {fileID: 11500000, guid: 9964396c979b3f94bb3953270baf5526, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isRocket: 1
-  rocketTurnSpeed: 4
-  rocketTargetingDelay: 0.6
   hitFX: {fileID: 7210293917702764795, guid: 495798c71181743498ea1b918e3d597f, type: 3}
-  hitFXRotation: {x: 0, y: 0, z: 0, w: 0}
-  speed: 20
+  speed: 30
   damage: 100
   projectileLifetime: 4
+  rocketTurnSpeed: 5
+  rocketTargetingDelay: 0.5
 --- !u!54 &-6247767496382181630
 Rigidbody:
   m_ObjectHideFlags: 0

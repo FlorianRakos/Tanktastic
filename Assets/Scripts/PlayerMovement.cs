@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
         rigidbody = GetComponent<Rigidbody>();
     }
 
-    
+  
     void FixedUpdate()
     {
         CheckForInput();
